@@ -1,0 +1,1 @@
+For Windows 2008 R2 use vista installer. But there are limitations. check the certifiaction test results.

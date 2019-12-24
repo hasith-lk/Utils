@@ -1,0 +1,18 @@
+When cursor search for existance of a record it is necessary to stop on first hit. By Applying the row number we can limit the fetch and imporve performances.
+
+-- Old code
+   CURSOR exist_control IS
+      SELECT 1
+      FROM WORK_TIME_COUNTER_DESC_TAB
+      WHERE (work_time_ > start_time AND work_time_ <= end_time)
+      AND calendar_id = calendar_id_;
+
+
+-- New Code
+   -- Bug 146893, Added rownum to improve fetch performances
+   CURSOR exist_control IS
+      SELECT 1
+      FROM WORK_TIME_COUNTER_DESC_TAB
+      WHERE (work_time_ > start_time AND work_time_ <= end_time)
+      AND calendar_id = calendar_id_
+      AND rownum = 1;

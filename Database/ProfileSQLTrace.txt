@@ -1,0 +1,21 @@
+alter system flush buffer_Cache;
+alter System flush shared_pool;
+
+exec Dbms_Session.Session_Trace_Enable(waits => TRUE, binds => FALSE);
+alter session autotrace traceonly;
+alter session set tracefile_identifier='localMachine001';
+
+-- Select statement is here
+select *
+from SO_OPER_DISPATCH_LIST
+ where outside_op_item IS NULL
+   AND CONTRACT = '1'
+   AND OPER_STATUS_CODE_DB NOT IN ('20', '90')
+   AND (ROWSTATE IN ('Released', 'Reserved', 'Started'))
+ order by OP_START_DATE,
+          RPAD(ORDER_NO, 20),
+          RELEASE_NO,
+          SEQUENCE_NO,
+          OPERATION_NO;
+
+exec Dbms_Session.Session_Trace_Disable();
