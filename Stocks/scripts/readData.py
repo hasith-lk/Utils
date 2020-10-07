@@ -9,13 +9,14 @@
 import requests
 import json
 import time
+import os
+from datetime import datetime
 
-nfilepath = "D:\\Personal\\share\BasicData\\N-stocks.txt"
-xfilepath = "D:\\Personal\\share\\BasicData\\X-stocks.txt"
-savefolderPath = "D:\\Personal\\share\\results"
+nfilepath = "D:\\Personal\\share\BasicData\\ALL-stocks.txt"
+savefolderPath = "D:\\Personal\\share\\data"
 
 baseUrl = 'https://online.capitaltrustholding.com/atsweb/Chart'
-JSESSIONID='923F0FD17DF40ACDD0C10445AF18ACAF'
+JSESSIONID='B803747635DA0262414B260D1A624CC6'
 
 #fromDate = '1561986000'
 fromDate = '1572570001'  # 2019-9-1
@@ -35,11 +36,6 @@ Nlines = nFile.readlines()
 Nlines = [line.rstrip() for line in Nlines]
 nFile.close()
 
-xFile = open(xfilepath, "r")
-Xlines = xFile.readlines()
-Xlines = [line.rstrip() for line in Xlines]
-xFile.close()
-
 def writeToFile(SLines):
     for sLine in SLines:
         sFileName = savefolderPath + '\\'+ sLine + '.txt'
@@ -50,7 +46,24 @@ def writeToFile(SLines):
         file.close()
 
 print('Start')
-writeToFile(Xlines)
+print('Backup Old Data')
+backupStatus = False
+if  os.listdir(savefolderPath):
+    dateTimeObj = datetime.now()
+    backupFolderName=savefolderPath + "_{}_{}_{}_{}_{}_{}".format(dateTimeObj.year,dateTimeObj.month,dateTimeObj.day,
+    dateTimeObj.hour,dateTimeObj.minute,dateTimeObj.second);
+    os.rename(savefolderPath,backupFolderName)
+    os.makedirs(savefolderPath)
+    print('Backup Done')
+    backupStatus = True
+else:
+    print('No Backup')
+    backupStatus = True    
+
+now = datetime.now()
+print('Start data download at {}:{} {}'.format(now.hour, now.minute, now.second))
+
 writeToFile(Nlines)
-print('done')
+now = datetime.now()
+print('Complete data download at {}:{} {}'.format(now.hour, now.minute, now.second))
   

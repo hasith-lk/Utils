@@ -3,8 +3,9 @@ import json
 from talib import EMA
 import datetime
 
-nfilepath = "D:\\share\\N-stocks.txt"
-savefolderPath = "D:\\share\\data"
+nfilepath = "D:\\Personal\\share\\BasicData\\All-stocks.txt"
+savefolderPath = "D:\\Personal\\share\\data"
+resultFolderPath = 'D:\\Personal\\share\\results'
 resultsFile = "resultsEMA.txt"
 
 # index settings
@@ -47,7 +48,7 @@ for sLine in Nlines:
         print(sLine + ' : Failed') 
 
 
-file = open(savefolderPath + '\\' + resultsFile, 'w')
+file = open(resultFolderPath + '\\' + resultsFile, 'w')
 file.write(values)
 file.close()
 
