@@ -19,7 +19,7 @@ stockListPath = 'D:\\Personal\\share\\BasicData\\ALL-stocks.txt'
 dataFolderPath = 'D:\\Personal\\share\\data'
 resultFolderPath = 'D:\\Personal\\share\\results'
 
-shareCode='VONE.N0000'
+shareCode='PAP.N0000'
 
 def get_preds_mov_avg(df, target_col, N, pred_min, offset):
     """
@@ -68,7 +68,7 @@ ax.set_ylabel("LKR")
 
 test_size = 0.2                 # proportion of dataset to be used as test set
 cv_size = 0.2                   # proportion of dataset to be used as cross-validation set
-Nmax = 15                       # for feature at day t, we use lags from t-1, t-2, ..., t-N as features
+Nmax = 25                       # for feature at day t, we use lags from t-1, t-2, ..., t-N as features
                                 # Nmax is the maximum N we are going to test
 
 # Get sizes of each of the datasets
@@ -186,7 +186,7 @@ ax = test.plot(x='date', y='est_N{}'.format(N_opt2), style='cx-', grid=True, ax=
 ax.legend(['train', 'validation', 'test', 'predictions with N_opt={}'.format(N_opt), 'predictions with N_opt={}'.format(N_opt2)])
 ax.set_xlabel("date")
 ax.set_ylabel("LKR")
-ax.set_xlim([date(2020, 8, 1), date(2020, 10, 1)])
+ax.set_xlim([date(2020, 8, 1), date(2020, 10, 30)])
 #ax.set_ylim([100, 140])
 ax.set_title('Zoom in to test set')
 plt.show()

@@ -194,11 +194,12 @@ day = pd.Timestamp(date(2020, 7, 23))
 Nmax2 = 5
 
 df_temp = cv[cv['date'] <= day]
+df_temp.head()
 plt.figure(figsize=(12, 8), dpi=80)
 plt.plot(range(1,Nmax2+2), df_temp[-Nmax2-1:]['c'], 'bx-')
 plt.plot(Nmax2+1, df_temp[-1:]['c'], 'ys-')
 legend_list = ['c', 'actual_value']
-plt.show()
+#plt.show()
 
 # Plot the linear regression lines and the predictions
 color_list = ['r', 'g', 'k', 'y', 'm', 'c', '0.75']
@@ -264,26 +265,29 @@ ax.set_title('Zoom in to dev set')
 plt.title(shareCode)
 plt.show()
 
-est_list = get_preds_lin_reg(df, 'c', N_opt, 0, num_train+num_cv)
-test.loc[:, 'est' + '_N' + str(N_opt)] = est_list
+for NT in range(N_opt, N_opt+5):
+    est_list = get_preds_lin_reg(df, 'c', NT, 0, num_train+num_cv)
+    test.loc[:, 'est' + '_N' + str(NT)] = est_list
 
-est_list = get_preds_lin_reg(df, 'c', N_opt+1, 0, num_train+num_cv)
-test.loc[:, 'est' + '_N' + str(N_opt+1)] = est_list
+# est_list = get_preds_lin_reg(df, 'c', N_opt+1, 0, num_train+num_cv)
+# test.loc[:, 'est' + '_N' + str(N_opt+1)] = est_list
 
-print("RMSE = %0.3f" % math.sqrt(mean_squared_error(est_list, test['c'])))
-print("R2 = %0.3f" % r2_score(test['c'], est_list))
-print("MAPE = %0.3f%%" % get_mape(test['c'], est_list))
-test.head()
+    print("RMSE = %0.3f" % math.sqrt(mean_squared_error(est_list, test['c'])))
+    print("R2 = %0.3f" % r2_score(test['c'], est_list))
+    print("MAPE = %0.3f%%" % get_mape(test['c'], est_list))
+    test.head()
 
 # Plot adjusted close over time
 rcParams['figure.figsize'] = 10, 8 # width 10, height 8
 
-ax = train.plot(x='date', y='c', style='b-', grid=True)
-ax = cv.plot(x='date', y='c', style='y-', grid=True, ax=ax)
+#ax = train.plot(x='date', y='c', style='b-', grid=True)
+ax = cv.plot(x='date', y='c', style='y-', grid=True)
 ax = test.plot(x='date', y='c', style='g-', grid=True, ax=ax)
-ax = test.plot(x='date', y='est_N2', style='r-', grid=True, ax=ax)
-ax = test.plot(x='date', y='est_N3', style='c-', grid=True, ax=ax)
-ax.legend(['train', 'dev', 'test', 'predictions with N_opt=2', 'predictions with N_opt=3'])
+for NT in range(N_opt, N_opt+5):
+    ax = test.plot(x='date', y='est_N{}'.format(NT), color=color_list[NT%len(color_list)], grid=True, ax=ax)
+#ax = test.plot(x='date', y='est_N3', style='c-', grid=True, ax=ax)
+#ax.legend(['train', 'dev', 'test', 'predictions with N_opt=2', 'predictions with N_opt=3'])
+ax.legend(['dev', 'test', 'predictions with N_opt=2', 'predictions with N_opt=3'])
 ax.set_xlabel("date")
 ax.set_ylabel("LKR")
 plt.title(shareCode)

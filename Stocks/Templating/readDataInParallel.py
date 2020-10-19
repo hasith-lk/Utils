@@ -15,8 +15,9 @@ from multiprocessing import Pool
 nfilepath = "D:\\Personal\\share\BasicData\\ALL-stocks.txt"
 savefolderPath = "D:\\Personal\\share\\data"
 
-baseUrl = 'https://online.capitaltrustholding.com/atsweb/Chart'
-JSESSIONID='0A16C799C3527B41334EE97257F523D3'
+#baseUrl = 'https://online.capitaltrustholding.com/atsweb/Chart'
+baseUrl = 'https://online2.cts1.lk/atsweb/Chart'
+JSESSIONID='9E130AE49563E7D8BF4413EA75269DD8'
 
 #fromDate = '1561986000'
 fromDate = '1572570001'  # 2019-9-1

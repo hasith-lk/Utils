@@ -48,10 +48,13 @@ y = np.array(df['Prediction'])[:-future_days]
 print(y)
 
 
-X = StandardScaler().fit_transform(X)
+#X = StandardScaler().fit_transform(X)
 
 # split dataset to train set and test set (25%)
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size = 0.25)
+
+x_train = StandardScaler().fit_transform(x_train)
+#y_train = StandardScaler().fit_transform(y_train)
 
 #Create the decision tree regressor model
 # tree = DecisionTreeRegressor().fit(x_train, y_train)
@@ -67,36 +70,9 @@ x_future = x_future.tail(future_days)
 x_future = np.array(x_future)
 x_future
 
-#Show the model tree prediction
-#tree_prediction = tree.predict(x_future)
-#print( tree_prediction )
-#print()
 #Show the model linear regression prediction
-y_prediction = lr.predict(x_test)
-print(y_prediction)
-
-lrConfus = confusion_matrix(y_test, y_prediction)
-
-print("{} - {} - {} - {} - {} - {} - {}".format(shareCode, lr.score(x_train, y_train), lr.score(x_test, y_test), lrConfus[0,0], lrConfus[0,1], lrConfus[1,0], lrConfus[1,1]))
-
-# export the decision tree to a tree.dot file 
-# for visualizing the plot easily anywhere 
-# export_graphviz(tree, out_file = (resultFolderPath + '\\tree.dot'), feature_names =['MACD'])
-
-# #Visualization
-# predictions = tree_prediction
-
-# #Plot the data
-# valid =  df[X.shape[0]:]
-# valid['Predictions'] = predictions #Create a new column called 'Predictions' that will hold the predicted prices
-# plt.figure(figsize=(16,8))
-# plt.title('Tree Model')
-# plt.xlabel('Days',fontsize=18)
-# plt.ylabel('Close Price LKR (R)',fontsize=18)
-# plt.plot(df['macd'])
-# plt.plot(valid[['macd','Predictions']])
-# plt.legend(['Train', 'Val', 'Prediction' ], loc='lower right')
-# plt.show()
+lr_prediction = lr.predict(x_future)
+print(lr_prediction)
 
 #Visualize the data
 predictions = lr_prediction
