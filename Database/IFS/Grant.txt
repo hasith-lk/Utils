@@ -1,9 +1,0 @@
-select lu.module,mtd.package_name||'.'|| mtd.method_name, mtd.method_type
-from Dictionary_Sys_tab lu, DICTIONARY_SYS_METHOD_TAB mtd, DICTIONARY_SYS_PACKAGE_TAB pkg
-where lu.module = upper('&module') and mtd.lu_name = lu.lu_name and pkg.lu_name = mtd.lu_name
-and pkg.package_type not in ('D');
-/
-select sec.* from pres_object_tab t, PRES_OBJECT_SECURITY_TAB sec 
-where t.module = 'SHPORD' and t.pres_object_type = 'WIN'
-and t.po_id = sec.po_id and sec.sec_object_type = 'METHOD';
-/
